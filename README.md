@@ -107,7 +107,7 @@ During the evaluation phase, human perceptual coherence was combined with object
 Alongside the overall analysis, a tissue-specific assessment was conducted to differentiate performance across three distinct tissue types: lung, surrounding external and carcinogenic tissues. Metrics were calculated separately for each category to highlight models' effectiveness in reconstructing structures with differing intrinsic properties, as illustrated in Figure 6.
 
 <p align="center">
-    <img src="./imgs/overfitting.png" alt="Figure 6" width="1240"/>
+    <img src="./imgs/tissue_difference.png" alt="Figure 6" width="1240"/>
     <br>
     <em><strong>Figure 6:</strong> Procedure applied to evaluate the pixel-by-pixel performance of the frameworks, developed based on the anatomical differences between tissues.</em>
 </p>
@@ -115,7 +115,7 @@ Alongside the overall analysis, a tissue-specific assessment was conducted to di
 A tumour reconstruction analysis, shown in Figure 7, further assessed each model’s ability to reconstruct solid masses by identifying hyperdense regions. This analysis used the Dice coefficient (DICE), focusing on structural alignment rather than solely on pixel intensity. Lesion areas were categorized into four ranges based on the proportion of tumour tissue within the missing regions: $[0\%; 25\%]$, $[25\%; 50\%]$, $[50\%; 75\%]$ and $[75\%; 100\%]$; providing insights into reconstruction accuracy relative to the extent of missing carcinogenic tissue.
 
 <p align="center">
-    <img src="./imgs/overfitting.png" alt="Figure 7" width="1240"/>
+    <img src="./imgs/tumour_reconstrution_study.png" alt="Figure 7" width="1240"/>
     <br>
     <em><strong>Figure 7:</strong> Approach applied to analyze the reconstructive capacity of tumours.</em>
 </p>
