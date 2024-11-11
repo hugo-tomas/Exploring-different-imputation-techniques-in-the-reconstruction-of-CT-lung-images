@@ -17,6 +17,8 @@ This project is organized into three primary procedural steps &mdash; Preprocess
     <em><strong>Figure 1:</strong> Diagram of the experimental procedure developed.</em>
 </p>
 
+---
+
 ## Key Results
 This study’s results capture the performance of various inpainting techniques for reconstructing missing or corrupted regions in lung CT images. Through quantitative and qualitative analyses, the study assessed each model's effectiveness in reconstructing essential tissue characteristics and handling complex structural and textural challenges. The sections below provide a comparative perspective on each model’s effectiveness, as well as insights into their strengths and limitations across varied reconstruction scenarios.
 
