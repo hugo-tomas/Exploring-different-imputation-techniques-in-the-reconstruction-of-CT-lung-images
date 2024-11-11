@@ -51,7 +51,7 @@ Despite the promising results in this field ( which can be explored in more deta
 This chapter is organized into three primary procedural sections &mdash; Preprocessing Steps, Missing Data Generation and Missing Data Reconstruction &mdash; as illustrated in Figure 1. The entire methodology, from image processing tasks to Machine Learning (ML) algorithms, was implemented using *Python*.
 
 <p align="center">
-    <img src="./imgs/experimental_setup.png" alt="Figure 1" width="1240"/>
+    <img src="./imgs/experimental_setup.png" alt="Figure 1" width="750"/>
     <br>
     <em><strong>Figure 1:</strong> Diagram of the experimental procedure developed.</em>
 </p>
@@ -64,7 +64,7 @@ To ensure consistency across the dataset, variations in the field of view (FOV) 
 Pixel values, originally measured in *Hounsfield* Units (HU), were then normalized to a range of $[0, 1]$ following a windowing process from $[-600, 1000]$ HU, as illustrated in Figure 2. This normalization accommodated the density ranges of both thoracic and carcinogenic tissues, ultimately supporting more accurate algorithmic comparisons during specific evaluation stages.
 
 <p align="center">
-    <img src="./imgs/hounsdfield_graph.png" alt="Figure 2" width="1240"/>
+    <img src="./imgs/hounsdfield_graph.png" alt="Figure 2" width="500"/>
     <br>
     <em><strong>Figure 2:</strong> Windowing process and respective conversion from *Hounsfield* to Pixel Intensity scale.</em>
 </p>
@@ -75,40 +75,46 @@ Unlike traditional methods that estimate missing pixels across the entire image,
 To comprehensively assess the models, four levels of missing data &mdash; **10%, 20%, 30% and 40%** &mdash; were applied using a square pattern that densely removed information, allowing models' performance analysis under progressive data loss, as outlined in Figure 3. To maintain focus on the lung tissue, the centre of the missing region was assumed to fall within the lung mask. However, due to the variable shapes of lung slices &mdash; particularly in the narrower, elongated inferior lobes &mdash; it was not always feasible to fully confine high-percentage missing data areas within the lung boundaries. To address this, as represented in Figure 4, a missing mask was deemed valid if at least $60\%$ of its pixels were within the lung area and $100\%$ were within the region of interest (ROI). This condition prevented the models trained on higher missing-data percentages from being restricted to medial lung slices with larger pulmonary cavities, enhancing generalizability across different lung regions.
 
 <p align="center">
-    <img src="./imgs/missing_creation.png" alt="Figure 3" width="1240"/>
+    <img src="./imgs/missing_creation.png" alt="Figure 3" width="500"/>
     <br>
     <em><strong>Figure 3:</strong> Minimalist schematic representative of the algorithm behind missing mask creation.</em>
 </p>
+<br>
+<p align="center">
+    <img src="./imgs/mask_validation.png" alt="Figure 4" width="500"/>
+</p>
 
 <p>
-    <img src="./imgs/mask_validation.png" alt="Figure 4" width="1240"/>
-    <br>
     <em><strong>Figure 4:</strong> Visual representation of the process for creating and validating missing zones, using the masks from lung region segmentation and images of ROIs, previously extracted.</em>
 </p>
 
 In summary, this targeted approach provided a deeper understanding of how imputation models perform with tissues of distinct characteristics, especially in cases where missing data could compromise medical assessment accuracy. By refining the precision of reconstructed regions, this method aimed to yield more reliable clinical insights, improve ML model specificity and minimize potential errors or inconsistencies during reconstruction.
 
    - ### Missing Reconstruction
-This study compared several imputation models to evaluate their performance on different thoracic tissue types, each with distinct characteristics. The approach was based on the hypothesis that certain models may excel with specific tissue structures, even if their overall performance varied. Two adapted versions of the CE model [8], each focused on local and global discrimination, were highlighted alongside comparisons with other established models such as GLCIC [9], CA [10], EC [11] and ESMII [12].
+This study compared several imputation models to evaluate their performance on different thoracic tissue types, each with distinct characteristics. The approach was based on the hypothesis that certain models may excel with specific tissue structures, even if their overall performance varied. **Two adapted versions of the CE model [8], each focused on local and global discrimination, were highlighted alongside comparisons with other established models such as GLCIC [9], CA [10], EC [11] and ESMII [12]**.
 
 A 10-fold cross-validation protocol was applied for training and testing phases across all imputation models to ensure robust and consistent results. This approach was adopted to address an issue observed during traditional dataset division, where a random split into training and test sets, as commonly practised in the literature, inadvertently led to slices from the same patient scan appearing in both sets, as demonstrated in Figure 5. This overlap allowed the reconstruction models to benefit from adjacent training slices, potentially inflating performance metrics by relying on neighbouring data rather than the intended independent slices.
 
+<p align="center">
+    <img src="./imgs/overfitting.png" alt="Figure 5" width="750"/>
+</p>
+
 <p>
-    <img src="./imgs/overfitting.png" alt="Figure 5" width="1240"/>
-    <br>
     <em><strong>Figure 5:</strong> A potential overfitting scenario caused by the commonly used split approach between training and test sets. In this situation, slices 100 and 101 from the same CT volume are included in the test and training phases, respectively, leading the model to rely on memorization rather than learning during the training procedure. This particular overfitting effect is highlighted by a mask that covers 90% of the total image area, demonstrating an effective failure in the model’s generalization capacity.</em>
 </p>
 
+
 To provide fair comparison conditions, all models were trained and evaluated under standardized settings, including uniform data preprocessing, consistent training parameters **(100 epochs with a batch size of 8 slices)** and controlled testing environments. The experiments were conducted on a virtual machine equipped with an **Intel Xeon Silver 4314 CPU** at **2.40 GHz** and an **NVIDIA RTX A6000 GPU** with **47.95 GiB** of memory, ensuring consistent computational conditions across all techniques.
 
-## 4. Results
+## Results
 During the evaluation phase, human perceptual coherence was combined with objective metrics, including pixel-based measures -- Mean Absolute Error (MAE) and Peak Signal-to-Noise Ratio (PSNR) &mdash; and feature-based metrics &mdash; Structural Similarity Index Measure (SSIM) and Fréchet Inception Distance (FID).
 
 Alongside the overall analysis, a tissue-specific assessment was conducted to differentiate performance across three distinct tissue types: lung, surrounding external and carcinogenic tissues. Metrics were calculated separately for each category to highlight models' effectiveness in reconstructing structures with differing intrinsic properties, as illustrated in Figure 6.
 
+<p align="center">
+    <img src="./imgs/tissue_difference.png" alt="Figure 6" width="750"/>
+</p>
 <p>
-    <img src="./imgs/tissue_difference.png" alt="Figure 6" width="1240"/>
-    <br>
     <em><strong>Figure 6:</strong> Procedure applied to evaluate the pixel-by-pixel performance of the frameworks, developed based on the anatomical differences between tissues.</em>
 </p>
 
@@ -156,16 +162,19 @@ The ESMII model delivered some of the highest-quality reconstructions, with outp
       According to Table 1 and 2, the ESMII model consistently outperformed other models across missing data levels in pixel-based evaluations (MAE and PSNR). CE-based models performed well at lower omission levels but declined markedly with increased missing areas. The EC model enhanced performance at higher omission rates, suggesting suitability for certain applications. In evaluations across healthy (HT) and lesion tissues (LT), ESMII generally maintained superior metrics overall.
 
       <p>
-         <em><strong>Table 1:</strong> Quantitative results obtained after testing all the inpainting models compared during this study, based on a pixel-based approach. This approach was designed to assess the algorithms’ performance in healthy tissues (HT), tissues with tumour lesions (LT) and their combination (ALL). Note that the up and down arrows next to the metrics indicate the optimal direction for the models’ test parameters evolution. The values in bold highlight the best values for each condition.</em>
-          <br>
-         <img src="./tabs/overall_pixel.png" alt="Table 1" width="1240"/>
-      </p> 
-
+          <em><strong>Table 1:</strong> Quantitative results obtained after testing all the inpainting models compared during this study, based on a pixel-based approach. This approach was designed to assess the algorithms’ performance in healthy tissues (HT), tissues with tumour lesions (LT), and their combination (ALL). Note that the up and down arrows next to the metrics indicate the optimal direction for the models’ test parameters evolution. The values in bold highlight the best values for each condition.</em>
+      </p>
+      <p align="center">
+          <img src="./tabs/overall_pixel.png" alt="Table 1" width="750"/>
+      </p>
+      
       <p>
-         <em><strong>Table 2:</strong> Quantitative results obtained after testing all the inpainting models compared during this study, based on a image consistency evaluation. This approach was designed to assess the algorithms’ performance in healthy tissues (HT), tissues with tumour lesions (LT) and their combination (ALL). Note that the up and down arrows next to the metrics indicate the optimal direction for the models’ test parameters evolution. The values in bold highlight the best values for each condition.</em>
-          <br>
-         <img src="./tabs/overall_highlevel.png" alt="Table 2" width="1240"/>
-      </p> 
+          <em><strong>Table 2:</strong> Quantitative results obtained after testing all the inpainting models compared during this study, based on an image consistency evaluation. This approach was designed to assess the algorithms’ performance in healthy tissues (HT), tissues with tumour lesions (LT), and their combination (ALL). Note that the up and down arrows next to the metrics indicate the optimal direction for the models’ test parameters evolution. The values in bold highlight the best values for each condition.</em>
+      </p>
+      <p align="center">
+          <img src="./tabs/overall_highlevel.png" alt="Table 2" width="750"/>
+      </p>
+
       
       For image consistency, ESMII again excelled, with FID indicating significant advantages over the other models. CA model, despite lower pixel-based scores, achieved higher FID values than CE-based models, highlighting that high pixel accuracy alone does not equate to effective tissue reconstruction. SSIM remained high across both HT and LT, suggesting overall coherence but poor lesion reconstruction. FID further emphasized performance drops in CE-based models in the presence of lesions. Additionally, the EC model excelled in HT but declined in LT, highlighting a performance shift with tissue complexity.
 
@@ -173,10 +182,11 @@ The ESMII model delivered some of the highest-quality reconstructions, with outp
       Table 3 highlights that imputation models had divergent performances across different tissue types. Lung tissue showed the highest reconstruction accuracy, followed by extra-pulmonary and tumour tissues, reflecting varying noise levels. Lung tissue reconstructions had higher standard deviations due to their complex structures, while extra-pulmonary tissues showed less variability.
 
       <p>
-         <em><strong>Table 3:</strong> Qualitative results from testing the top-performing inpainting models across Lung, External-Lung and Tumour tissues, with bold values marking the best performance and arrows indicating the optimal direction of metric evolution.</em>
-          <br>
-         <img src="./tabs/tissuebased.png" alt="Table 3" width="1240"/>
-      </p> 
+          <em><strong>Table 3:</strong> Qualitative results from testing the top-performing inpainting models across Lung, External-Lung, and Tumour tissues, with bold values marking the best performance and arrows indicating the optimal direction of metric evolution.</em>
+      </p>
+      <p align="center">
+          <img src="./tabs/tissuebased.png" alt="Table 3" width="750"/>
+      </p>
 
       The ESMII model outperformed others in reconstructing lung and extra-lung tissues, while the EC model excelled in tumour reconstructions. Statistical tests confirmed EC's advantage at lower missing rates, with the difference less significant at higher omission levels. EC’s strong performance in structural reconstruction suggests a preference for structural details over texture, particularly for tumour reconstruction.
       
@@ -184,17 +194,18 @@ The ESMII model delivered some of the highest-quality reconstructions, with outp
       Table 4 shows that reconstructing tumour masses in missing regions was challenging, particularly as tumour omission increased. With 75% to 100% of the tumour missing, reconstruction accuracy dropped due to limited external information, emphasizing the reliance on contextual cues.
 
       <p>
-         <em><strong>Table 4:</strong> Qualitative results focusing on tumour reconstruction by measuring the tumour overlap between generated and original data. Bold values indicate the best performance and arrows show the optimal metric direction.</em>
-          <br>
-         <img src="./tabs/tumourbased.png" alt="Table 4" width="1240"/>
-      </p> 
+          <em><strong>Table 4:</strong> Qualitative results focusing on tumour reconstruction by measuring the tumour overlap between generated and original data. Bold values indicate the best performance and arrows show the optimal metric direction.</em>
+      </p>
+      <p align="center">
+          <img src="./tabs/tumourbased.png" alt="Table 4" width="750"/>
+      </p>
 
       The EC model was most effective in detecting lesions under high omission scenarios, although variability in outcomes resulted in minimal statistical differences compared to the ESMII model.
       
       Models did not solely depend on visible tumour data, because the absence of surrounding carcinogenic context impacted lesion reconstruction at higher omission rates. Notably, the CA model showed unexpectedly low DICE and IoU scores with 0% to 25% of tumour omission, suggesting that minor missing tumour areas may be deprioritized. In contrast, models like EC and ESMII, which use priors from other images, maintained more consistent performance across varying tumour omissions.
       
-## 5. Conclusion and Future Work
-In conclusion, this study examined various learning-based imputation models for reconstructing missing regions in lung CT images. Among the five established models -- *Context Encoder* (CE), *Global and Local Consistency Image Completion* (GLCIC), *Contextual Attention* (CA), *Edge-Connected* (EC) and *Edge and Structure Information for Medical Image Inpainting* (ESMII) -- ESMII demonstrated superior overall performance in both structural and textural reconstructions.
+## Conclusion and Future Work
+In conclusion, this study examined various learning-based imputation models for reconstructing missing regions in lung CT images. Among the five established models &mdash; *Context Encoder* (CE), *Global and Local Consistency Image Completion* (GLCIC), *Contextual Attention* (CA), *Edge-Connected* (EC) and *Edge and Structure Information for Medical Image Inpainting* (ESMII) &mdash; ESMII demonstrated superior overall performance in both structural and textural reconstructions.
 
 Both qualitative and quantitative assessments indicated that ESMII surpassed other models in reconstructing structural and textural data, sustaining consistent performance across varying levels of missing information. While ESMII generally exhibited statistically significant improvements, some comparisons with EC revealed minimal or non-significant differences.
 
@@ -202,7 +213,7 @@ Notably, the EC model demonstrated high efficacy in reconstructing tumour masses
 
 Nevertheless, tumour reconstruction remained challenging, underscoring the need for continued research to improve model capabilities in handling complex tissue structures and missing data patterns. Future advancements could benefit from integrating clinical expertise, exploring hybrid approaches and adapting to clinically relevant missing-data scenarios.
 
-## 6. References
+## References
 
 [1] Barsha Abhisheka, Saroj Biswas, Biswajit Purkayastha, Dolly Das, and Alexandre
 Escargueil. Recent trend in medical imaging modalities and their applications in
@@ -235,33 +246,40 @@ Indications, costs, and radiation exposure. The journal of trauma and acute care
 [7] Xiaobo Zhang, Donghai Zhai, Tianrui Li, Yuxin Zhou, and Yang Lin. Image inpainting
 based on deep learning: A review. Information Fusion, 90:74–94, 2023.
 
-[6] Deepak Pathak, Philipp Kr¨ahenb¨uhl, Jeff Donahue, Trevor Darrell, and Alexei A. Efros.
+[8] Deepak Pathak, Philipp Kr&auml;henb&uuml;hl, Jeff Donahue, Trevor Darrell, and Alexei A. Efros.
 Context encoders: Feature learning by inpainting. CoRR, abs/1604.07379, 2016.
 
-[7] Satoshi Iizuka, Edgar Simo-Serra, and Hiroshi Ishikawa. Globally and locally consistent
+[9] Satoshi Iizuka, Edgar Simo-Serra, and Hiroshi Ishikawa. Globally and locally consistent
 image completion. ACM Trans. Graph., 36(4), 2017.
 
-[8] Jiahui Yu, Zhe Lin, Jimei Yang, Xiaohui Shen, Xin Lu, and Thomas S. Huang. Generative
+[10] Jiahui Yu, Zhe Lin, Jimei Yang, Xiaohui Shen, Xin Lu, and Thomas S. Huang. Generative
 image inpainting with contextual attention. In 2018 IEEE/CVF Conference on Computer
 Vision and Pattern Recognition (CVPR), pages 5505–5514. IEEE Computer Society,
 2018.
 
-[9] Kamyar Nazeri, Eric Ng, Tony Joseph, Faisal Qureshi, and Mehran Ebrahimi. Edge-
+[11] Kamyar Nazeri, Eric Ng, Tony Joseph, Faisal Qureshi, and Mehran Ebrahimi. Edge-
 connect: Structure guided image inpainting using edge prediction. In 2019 IEEE/CVF
 International Conference on Computer Vision Workshop (ICCVW), pages 3265–3274,
 2019.
 
-[10] Qianna Wang, Yi Chen, Nan Zhang, and Yanhui Gu. Medical image inpainting with
+[12] Qianna Wang, Yi Chen, Nan Zhang, and Yanhui Gu. Medical image inpainting with
 edge and structure priors. Measurement: Journal of the International Measurement
 Confederation, 185, 2021.
 
-[11] Lan Lan, Lei You, Zeyang Zhang, Zhiwei Fan, Weiling Zhao, Nianyin Zeng, Yidong Chen,
+[13] Lan Lan, Lei You, Zeyang Zhang, Zhiwei Fan, Weiling Zhao, Nianyin Zeng, Yidong Chen,
 and Xiaobo Zhou. Generative adversarial networks and its applications in biomedical
 informatics, 2020.
 
-[12] Michela Antonelli, Annika Reinke, Spyridon Bakas, Keyvan Farahani, Annette Kopp-
+[14] Michela Antonelli, Annika Reinke, Spyridon Bakas, Keyvan Farahani, Annette Kopp-
 Schneider, Bennett A. Landman, Geert Litjens, Bjoern Menze, Olaf Ronneberger, and
 Ronald M. Summers et al. The medical segmentation decathlon. Nature Communications,
 13, 2022.
 
-## 7. Contact
+[15] The Cancer Imaging Archive. The Cancer Imaging Archive (TCIA), 2024.
+
+
+## Contact
+
+Feel free to connect with me on [LinkedIn](https://www.linkedin.com/in/hugo-tomas-alexandre/) or reach out via email at [hugotomas.2001@outlook.pt](mailto:hugotomas.2001@outlook.pt.com) for any inquiries.
+
+If you're interested in using the available code or wish to explore the study further, it is open for exploration and free to use. Don’t hesitate to contact me with any questions or for collaboration opportunities!
