@@ -283,3 +283,5 @@ Ronald M. Summers et al. The medical segmentation decathlon. Nature Communicatio
 Feel free to connect with me on [LinkedIn](https://www.linkedin.com/in/hugo-tomas-alexandre/) or reach out via email at [hugotomas.2001@outlook.pt](mailto:hugotomas.2001@outlook.pt.com) for any inquiries.
 
 Feel free to explore and use the available code, as it’s open for study and experimentation. The code may not be 100% functional due to the ongoing manipulation and efforts to integrate multiple methods into a single structure. However, the core essence of the code remains intact, and you are welcome to build upon it or make improvements. If you have any questions or need assistance, don't hesitate to contact me!
+
+**Please note that some parts of the code related to dataset manipulation, such as compression, uniformization, and other preprocessing steps, have been omitted. This is due to the fact that these parts of the code are not yet well-organized for direct inclusion here. Additionally, some of the statistical analysis code is also missing for similar reasons, but I would be happy to provide these upon request.**
