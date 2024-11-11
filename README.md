@@ -27,7 +27,7 @@ Despite significant technological advancements, Computed Tomography (CT) scans r
 ---
 
 ## Introduction
-In recent decades, the integration of imaging technologies into the medical domain has become indispensable in modern healthcare, facilitating a substantial transition from a reactive to a preventive medical paradigm [1]. Currently, medical imaging serves as one of the fundamental pillars of healthcare, particularly in diagnostics, providing invaluable insights into the anatomical and functional intricacies of the human body [1].
+In recent decades, the integration of imaging technologies into the medical domain has become indispensable in modern healthcare, facilitating a substantial transition from a reactive to a preventive medical paradigm [1]. Currently, medical imaging serves as one of the fundamental pillars of healthcare, particularly in diagnostics, providing invaluable insights into the anatomical and functional intricacies of the human body ( background knowledge details can be consulted [HERE](./docs/BackgroundKnowledge.pdf) ) [1].
 
 Computed Tomography (CT) is among the most widely utilized and significant imaging modalities. Over 300 million CT scans are estimated to be performed globally each year [2]. However, despite the clinical efficacy of CT in medical decision-making, the imaging process is susceptible to failure due to its dependence on millions of individual sensor measurements. These errors can adversely affect medical decisions, particularly in critical scenarios such as oncology, where such failures can impact patient outcomes and disrupt subsequent post-processing algorithms for classification or segmentation tasks [3,4].
 
@@ -45,10 +45,10 @@ Recent advancements in image inpainting have led to the development of innovativ
 
 In the medical field, image imputation techniques have predominantly been applied in Computed Tomography (CT) and Magnetic Resonance Imaging (MRI). These algorithms typically aim to rectify non-anatomic artefacts, such as streaking caused by metal, motion or issues related to the field of view (FOV) and patient positioning [13]. Recent trends indicate an increasing integration of these techniques into more complex algorithms, including segmentation models, where inpainting appears as an intermediate step within the processing pipeline [13].
 
-Despite the promising results in this field (which can be explored in more detail in [HERE](./docs/LiteratureReview.pdf)), particularly in clinical applications where these techniques have demonstrated substantial impact, further exploration and development are necessary for a comprehensive understanding of the actual methods' effects on specific anatomical structures and tissues.
+Despite the promising results in this field ( which can be explored in more detail in [HERE](./docs/LiteratureReview.pdf) ), particularly in clinical applications where these techniques have demonstrated substantial impact, further exploration and development are necessary for a comprehensive understanding of the actual methods' effects on specific anatomical structures and tissues.
 
-## 3. Methodology
-This chapter is organized into three primary procedural sections -- Preprocessing Steps, Missing Data Generation and Missing Data Reconstruction -- as illustrated in Figure \ref{fig:experimental_setup}. The entire methodology, from image processing tasks to Machine Learning (ML) algorithms, was implemented using \textit{Python}.
+## Methodology
+This chapter is organized into three primary procedural sections &mdash; Preprocessing Steps, Missing Data Generation and Missing Data Reconstruction &mdash; as illustrated in Figure 1. The entire methodology, from image processing tasks to Machine Learning (ML) algorithms, was implemented using \textit{Python}.
 
 \begin{figure}[!ht]
     \centering
