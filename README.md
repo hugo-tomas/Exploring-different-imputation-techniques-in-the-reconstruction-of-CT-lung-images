@@ -61,18 +61,30 @@ The dataset for this study was sourced from the Medical Segmentation Decathlon (
 
 To ensure consistency across the dataset, variations in the field of view (FOV) acquisition required standardization, with only scans having slice counts within the first and third quartiles retained. This process resulted in a final selection of 31 volumes. A lung identification step was then applied, selecting only slices that contained pulmonary structures. Together, these steps yielded a set of 5,350 transverse slices, with an average of 172.58 slices per scan and a standard deviation of 18.52, which were used to train and evaluate the imputation models.
 
-Pixel values, originally measured in Hounsfield Units (HU), were then normalized to a range of $[0, 1]$ following a windowing process from $[-600, 1000]$ HU, as illustrated in Figure 2. This normalization accommodated the density ranges of both thoracic and carcinogenic tissues, ultimately supporting more accurate algorithmic comparisons during specific evaluation stages.
+Pixel values, originally measured in *Hounsfield* Units (HU), were then normalized to a range of $[0, 1]$ following a windowing process from $[-600, 1000]$ HU, as illustrated in Figure 2. This normalization accommodated the density ranges of both thoracic and carcinogenic tissues, ultimately supporting more accurate algorithmic comparisons during specific evaluation stages.
 
 <p align="center">
-    <img src="./imgs/experimental_setup.png" alt="Diagram of the experimental procedure" width="750"/>
+    <img src="./imgs/hounsdfield_graph.png" alt="Diagram of the experimental procedure" width="512"/>
     <br>
-    <em>Figure 1: Diagram of the experimental procedure developed.</em>
+    <em>Figure 2: Windowing process and respective conversion from *Hounsfield* to Pixel Intensity scale.</em>
 </p>
     
    - ### Missing Generation
 Unlike traditional methods that estimate missing pixels across the entire image, this approach focused exclusively on the lung area, weighting the missing data relative to the amount of omitted pulmonary tissue. For example, consider a slice with a resolution of $256 \times 256$ pixels and a missing data level of $10\%$. Conventional methods would calculate missing pixels as $256 \times 256 \times 0.1 \approx 6,554$ pixels. In contrast, assuming the lung region comprises $50\%$ of the image area, or $256 \times 256 \times 0.5 \approx 32,768$ pixels, this method calculates missing pixels as $(256 \times 256 \times 0.5) \times 0.1 \approx 3,277$ pixels. This lung-focused approach resulted in variable missing region sizes, even for a fixed percentage of missing data, ensuring that images with smaller lung areas had fewer omitted pixels than those with larger lung regions.
 
-To comprehensively assess the models, four levels of missing data -- 10\%, 20\%, 30\%, and 40\% -- were applied using a square pattern that densely removed information, allowing models' performance analysis under progressive data loss. To maintain focus on the lung tissue, the centre of the missing region was assumed to fall within the lung mask. However, due to the variable shapes of lung slices --particularly in the narrower, elongated inferior lobes -- it was not always feasible to fully confine high-percentage missing data areas within the lung boundaries. To address this, a missing mask was deemed valid if at least $60\%$ of its pixels were within the lung area and $100\%$ were within the region of interest (ROI). This condition prevented the models trained on higher missing-data percentages from being restricted to medial lung slices with larger pulmonary cavities, enhancing generalizability across different lung regions.
+To comprehensively assess the models, four levels of missing data &mdash; 10\%, 20\%, 30\%, and 40\% &mdash; were applied using a square pattern that densely removed information, allowing models' performance analysis under progressive data loss, as outlined in Figure 3. To maintain focus on the lung tissue, the centre of the missing region was assumed to fall within the lung mask. However, due to the variable shapes of lung slices &mdash; particularly in the narrower, elongated inferior lobes &mdash; it was not always feasible to fully confine high-percentage missing data areas within the lung boundaries. To address this, as represented in Figure 4, a missing mask was deemed valid if at least $60\%$ of its pixels were within the lung area and $100\%$ were within the region of interest (ROI). This condition prevented the models trained on higher missing-data percentages from being restricted to medial lung slices with larger pulmonary cavities, enhancing generalizability across different lung regions.
+
+<p align="center">
+    <img src="./imgs/hounsdfield_graph.png" alt="Diagram of the experimental procedure" width="512"/>
+    <br>
+    <em>Figure 3: Windowing process and respective conversion from *Hounsfield* to Pixel Intensity scale.</em>
+</p>
+
+<p align="center">
+    <img src="./imgs/hounsdfield_graph.png" alt="Diagram of the experimental procedure" width="512"/>
+    <br>
+    <em>Figure 4: Windowing process and respective conversion from *Hounsfield* to Pixel Intensity scale.</em>
+</p>
 
 In summary, this targeted approach provided a deeper understanding of how imputation models perform with tissues of distinct characteristics, especially in cases where missing data could compromise medical assessment accuracy. By refining the precision of reconstructed regions, this method aimed to yield more reliable clinical insights, improve ML model specificity, and minimize potential errors or inconsistencies during reconstruction.
 
