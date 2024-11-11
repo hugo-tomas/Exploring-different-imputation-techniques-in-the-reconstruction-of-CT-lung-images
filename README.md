@@ -1,11 +1,11 @@
 # Exploring Different Imputation Techniques in the Reconstruction of CT Lung Images
 
-Welcome to the official repository of our project, **Exploring Different Imputation Techniques in the Reconstruction of CT Lung Images**. This repository provides a comprehensive guide and additional resources to extend our research, including detailed explanations, images and notebooks.
+Welcome to the official repository of our project, **Exploring Different Imputation Techniques in the Reconstruction of CT Lung Images**. This repository provides a comprehensive research guide and additional resources, including detailed explanations, images and notebooks.
 
 ---
 
 ## Abstract
-Despite significant technological advancements, Computed Tomography (CT) scans remain vulnerable to artefacts and errors, leading to the loss of critical medical information and clinical efficacy. This study investigates the reconstruction of missing or corrupted regions in lung CT images by comparing five established image imputation models -- *Context Encoder* (CE), *{Global and Local Consistency Image Completion* (GLCIC), *Contextual Attention* (CA), *Edge-Connected* (EC), and *Edge and Structure Information for Medical Image Inpainting* (ESMII). These learning-based algorithms are evaluated using a 10-fold cross-validation approach on a dataset comprising 5,350 transverse slices from 31 chest CT volumes of patients with non-small cell lung cancer. The assessment encompasses four levels of missing data -- 10%, 20%, 30% and 40% -- which correspond to the proportion of missing pixels relative to the total number of lung tissue pixels in each image. The ESMII algorithm demonstrates superior overall performance across all percentages of missing data, consistently achieving accurate structural and textural reconstructions. However, in the context of tissue typology analysis and tumour mass reconstruction, the EC model exhibits the highest imputation performance across nearly all scenarios. However, from a broader perspective, the effectiveness of all models in reconstructing these noisy patterns remains limited. Given the novelty and potential of these techniques in medical applications, future research should focus on refining existing models, exploring new patterns of missing data and incorporating expert validation to enhance the clinical applicability of these methodologies.
+Despite significant technological advancements, Computed Tomography (CT) scans remain vulnerable to artefacts and errors, leading to the loss of critical medical information and clinical efficacy. This study investigates the reconstruction of missing or corrupted regions in lung CT images by comparing five established image imputation models &mdash; *Context Encoder* (CE), *{Global and Local Consistency Image Completion* (GLCIC), *Contextual Attention* (CA), *Edge-Connected* (EC), and *Edge and Structure Information for Medical Image Inpainting* (ESMII). These learning-based algorithms are evaluated using a 10-fold cross-validation approach on a dataset comprising 5,350 transverse slices from 31 chest CT volumes of patients with non-small cell lung cancer. The assessment encompasses four levels of missing data &mdash; 10%, 20%, 30% and 40% &mdash; which correspond to the proportion of missing pixels relative to the total number of lung tissue pixels in each image. The ESMII algorithm demonstrates superior overall performance across all percentages of missing data, consistently achieving accurate structural and textural reconstructions. However, in the context of tissue typology analysis and tumour mass reconstruction, the EC model exhibits the highest imputation performance across nearly all scenarios. However, from a broader perspective, the effectiveness of all models in reconstructing these noisy patterns remains limited. Given the novelty and potential of these techniques in medical applications, future research should focus on refining existing models, exploring new patterns of missing data and incorporating expert validation to enhance the clinical applicability of these methodologies.
 
 ## Table of Contents
 1. [Introduction](#introduction)
@@ -14,38 +14,38 @@ Despite significant technological advancements, Computed Tomography (CT) scans r
    - [Preprocessing Steps](#preprocessing-steps)
    - [Missing Generation](#missing-generation)
    - [Missing Reconstruction](#missing-reconstruction)
-5. [Results](#results)
+4. [Results](#results)
    - [Qualitative Results](#qualitative-results)
    - [Quantitative Results](#quantitative-results)
      - [Overall Analysis](#overall-analysis)
      - [Tissues-Based Analysis](#tissues-based-analysis)
      - [Tumoural Omission Analysis](#tumoural-omission-analysis)
-6. [Conclusion and Future Work](#conclusion-and-future-work)
-7. [References](#references)
-8. [Contact](#contact)
+5. [Conclusion and Future Work](#conclusion-and-future-work)
+6. [References](#references)
+7. [Contact](#contact)
 
 ---
 
-## 1. Introduction
-In recent decades, the integration of imaging technologies into the medical domain has become indispensable in modern healthcare, facilitating a substantial transition from a reactive to a preventive medical paradigm \cite{Abhisheka2023}. Currently, medical imaging serves as one of the fundamental pillars of healthcare, particularly in diagnostics, providing invaluable insights into the anatomical and functional intricacies of the human body \cite{Abhisheka2023}.
+## Introduction
+In recent decades, the integration of imaging technologies into the medical domain has become indispensable in modern healthcare, facilitating a substantial transition from a reactive to a preventive medical paradigm [1]. Currently, medical imaging serves as one of the fundamental pillars of healthcare, particularly in diagnostics, providing invaluable insights into the anatomical and functional intricacies of the human body [1].
 
-Computed Tomography (CT) is among the most widely utilized and significant imaging modalities. Over 300 million CT scans are estimated to be performed globally each year \cite{Schockel2020}. However, despite the clinical efficacy of CT in medical decision-making, the imaging process is susceptible to failure due to its dependence on millions of individual sensor measurements. These errors can adversely affect medical decisions, particularly in critical scenarios such as oncology, where such failures can impact patient outcomes and disrupt subsequent post-processing algorithms for classification or segmentation tasks \cite{Taniguchi2021,Joana2022}.
+Computed Tomography (CT) is among the most widely utilized and significant imaging modalities. Over 300 million CT scans are estimated to be performed globally each year [2]. However, despite the clinical efficacy of CT in medical decision-making, the imaging process is susceptible to failure due to its dependence on millions of individual sensor measurements. These errors can adversely affect medical decisions, particularly in critical scenarios such as oncology, where such failures can impact patient outcomes and disrupt subsequent post-processing algorithms for classification or segmentation tasks [3,4].
 
-A study from a Belgian imaging centre found that approximately 2.5\% of CT scans were rejected and subsequently repeated by radiographers \cite{Haddad2023}. Extrapolating this rejection rate indicates that around 7.5 million additional scans are conducted annually. This situation not only increases patient radiation exposure but also imposes substantial financial burdens on healthcare systems \cite{Jones2012}.
+A study from a Belgian imaging centre found that approximately 2.5\% of CT scans were rejected and subsequently repeated by radiographers [5]. Extrapolating this rejection rate indicates that around 7.5 million additional scans are conducted annually. This situation not only increases patient radiation exposure but also imposes substantial financial burdens on healthcare systems [6].
 
-Image imputation -- also referred to as inpainting or completion -- offers a promising alternative to reduce the need for repeat examinations. This approach encompasses a range of techniques designed to reconstruct distorted or missing regions in flawed scans, generating high-quality structures, consistent with the original data \cite{Zhang2023}.
+Image imputation &mdash; also referred to as inpainting or image completion &mdash; offers a promising alternative to reduce the need for repeat examinations. This approach encompasses a range of techniques designed to reconstruct distorted or missing regions in flawed scans, generating high-quality structures, consistent with the original data [7].
 
 In light of the aforementioned challenges and statistics, this study focuses specifically on lung CT images, emphasising lung tissue. This approach investigates pulmonary tissue's structural and textural restoration in images containing missing data, utilizing the surrounding available information. Beyond the high medical demand, pulmonary tissues exhibit distinct structural and textural characteristics and a significant incidence of lesions, such as malignant masses, which provide a robust foundation for exploring imputation techniques within this context.
 
-## 2. Related Work
+## Related Work
 
-Traditional methods for inferring missing image data primarily rely on mathematical and statistical models. However, they often struggle to capture high-level semantic details, focusing instead on local data rather than the broader image context \cite{Zhang2023}. To overcome these limitations, learning-based models such as Convolutional Neural Networks (CNNs) and Generative Adversarial Networks (GANs) have emerged as prominent alternatives, significantly improving image imputation by capturing high-level patterns imperceptible to the human eye \cite{Zhang2023}.
+Traditional methods for inferring missing image data primarily rely on mathematical and statistical models. However, they often struggle to capture high-level semantic details, focusing instead on local data rather than the broader image context [7]. To overcome these limitations, learning-based models such as Convolutional Neural Networks (CNNs) and Generative Adversarial Networks (GANs) have emerged as prominent alternatives, significantly improving image imputation by capturing high-level patterns imperceptible to the human eye \cite{Zhang2023}.
 
-Recent advancements in image inpainting have led to the development of innovative models that enhance reconstruction processes. In the literature, Pathak et al. (2016) \cite{Pathak2016} introduced the \textit{Context Encoder} (CE), recognized as one of the first models specialized in image imputation, which employs an encoder-decoder architecture with fully connected layers for reconstructing square missing masks. Building on this foundation, Iizuka et al. (2017) \cite{Iizuka2017} developed the \textit{Global and Local Consistency Image Completion} (GLCIC), which integrates dual discriminators to improve both local and global consistency in the generated images. Further refining inpainting techniques, Yu et al. (2018) \cite{Yu2018} proposed the \textit{Contextual Attention} (CA) model, which employs a two-stage approach to consider surrounding features, allowing for more effective filling of multiple holes of varying sizes. The \textit{EdgeConnect} (EC) model introduced by Nazeri et al. (2019) \cite{Nazeri2019} distinguishes itself by first predicting edge structures, utilizing this information to guide the inpainting process and enhance texture alignment. Similarly, Wang et al. (2021) \cite{Wang2021} presented the \textit{Edge and Structure Multi-Scale Image Inpainting} (ESMII) model, which incorporates both edge information and structural details extracted after a texture removal process, employing multi-scale feature extraction throughout the inpainting procedure.
+Recent advancements in image inpainting have led to the development of innovative models that enhance reconstruction processes. In the literature, Pathak et al. (2016) [8] introduced the *Context Encoder* (CE), recognized as one of the first models specialized in image imputation, which employs an encoder-decoder architecture with fully connected layers for reconstructing square missing masks. Building on this foundation, Iizuka et al. (2017) [9] developed the *Global and Local Consistency Image Completion* (GLCIC), which integrates dual discriminators to improve both local and global consistency in the generated images. Further refining inpainting techniques, Yu et al. (2018) [10] proposed the *Contextual Attention* (CA) model, which employs a two-stage approach to consider surrounding features, allowing for more effective filling of multiple holes of varying sizes. The *EdgeConnect* (EC) model introduced by Nazeri et al. (2019) [11] distinguishes itself by first predicting edge structures, utilizing this information to guide the inpainting process and enhance texture alignment. Similarly, Wang et al. (2021) [12] presented the *Edge and Structure Multi-Scale Image Inpainting* (ESMII) model, which incorporates both edge information and structural details extracted after a texture removal process, employing multi-scale feature extraction throughout the inpainting procedure.
 
-In the medical field, image imputation techniques have predominantly been applied in Computed Tomography (CT) and Magnetic Resonance Imaging (MRI). These algorithms typically aim to rectify non-anatomic artefacts, such as streaking caused by metal, motion or issues related to the field of view (FOV) and patient positioning \cite{Lan2020}. Recent trends indicate an increasing integration of these techniques into more complex algorithms, including segmentation models, where inpainting appears as an intermediate step within the processing pipeline \cite{Lan2020}.
+In the medical field, image imputation techniques have predominantly been applied in Computed Tomography (CT) and Magnetic Resonance Imaging (MRI). These algorithms typically aim to rectify non-anatomic artefacts, such as streaking caused by metal, motion or issues related to the field of view (FOV) and patient positioning [13]. Recent trends indicate an increasing integration of these techniques into more complex algorithms, including segmentation models, where inpainting appears as an intermediate step within the processing pipeline [13].
 
-Despite the promising results in this field, particularly in clinical applications where these techniques have demonstrated substantial impact, further exploration and development are necessary for a comprehensive understanding of the actual methods' effects on specific anatomical structures and tissues.
+Despite the promising results in this field (which can be explored in more detail in [HERE](./path/to/yourfile.pdf)), particularly in clinical applications where these techniques have demonstrated substantial impact, further exploration and development are necessary for a comprehensive understanding of the actual methods' effects on specific anatomical structures and tissues.
 
 ## 3. Methodology
 This chapter is organized into three primary procedural sections -- Preprocessing Steps, Missing Data Generation and Missing Data Reconstruction -- as illustrated in Figure \ref{fig:experimental_setup}. The entire methodology, from image processing tasks to Machine Learning (ML) algorithms, was implemented using \textit{Python}.
@@ -173,5 +173,65 @@ Notably, the EC model demonstrated high efficacy in reconstructing tumour masses
 Nevertheless, tumour reconstruction remained challenging, underscoring the need for continued research to improve model capabilities in handling complex tissue structures and missing data patterns. Future advancements could benefit from integrating clinical expertise, exploring hybrid approaches and adapting to clinically relevant missing-data scenarios.
 
 ## 6. References
+
+[1] Barsha Abhisheka, Saroj Biswas, Biswajit Purkayastha, Dolly Das, and Alexandre
+Escargueil. Recent trend in medical imaging modalities and their applications in
+disease diagnosis a review. Multimedia Tools and Applications, 83, 2023.
+
+[2] Laura Sch&#246;ckel, Gregor Jost, Peter Seidensticker, Philipp Lengsfeld, Petra Palkowitsch,
+and Hubertus Pietsch. Developments in x-ray contrast media and the potential impact
+on computed tomography. Investigative Radiology, Publish Ahead of Print, 2020.
+
+[3] Takuya Taniguchi, Takanori Hara, Tomohiro Shimozato, Fuminori Hyodo, Kose
+Ono, Shuto Nakaya, Yoshifumi Noda, Hiroki Kato, Osamu Tanaka, and Masayuki
+Matsuo. Effect of computed tomography value error on dose calculation in adaptive
+radiotherapy with elekta x-ray volume imaging cone beam computed tomography.
+Journal of Applied Clinical Medical Physics, 22:271–279, 2021.
+
+[4] Joana Cristo Santos, Pedro Henriques Abreu, and Miriam Seoane Santos. The identifi-
+cation of cancer lesions in mammography images with missing pixels: analysis of mor-
+phology. In 2022 IEEE 9th International Conference on Data Science and Advanced
+Analytics (DSAA), pages 1–8, 2022.
+
+[5] Laura Haddad, Hanna Saleme, Nigel Howarth, and Denis Tack. Reject analysis in dig-
+ital radiography and computed tomography: A belgian imaging department case study.
+Journal of the Belgian Society of Radiology, 107:7, 2023.
+
+[6] Alvin Jones, Dawit Woldemikael, Teresa Fisher, Gerry Hobbs, Bonhomme Prud’homme,
+and George Bal. Repeated computed tomographic scans in transferred trauma patients:
+Indications, costs, and radiation exposure. The journal of trauma and acute care surgery,
+73, 2012.
+
+[7] Xiaobo Zhang, Donghai Zhai, Tianrui Li, Yuxin Zhou, and Yang Lin. Image inpainting
+based on deep learning: A review. Information Fusion, 90:74–94, 2023.
+
+[6] Deepak Pathak, Philipp Kr¨ahenb¨uhl, Jeff Donahue, Trevor Darrell, and Alexei A. Efros.
+Context encoders: Feature learning by inpainting. CoRR, abs/1604.07379, 2016.
+
+[7] Satoshi Iizuka, Edgar Simo-Serra, and Hiroshi Ishikawa. Globally and locally consistent
+image completion. ACM Trans. Graph., 36(4), 2017.
+
+[8] Jiahui Yu, Zhe Lin, Jimei Yang, Xiaohui Shen, Xin Lu, and Thomas S. Huang. Generative
+image inpainting with contextual attention. In 2018 IEEE/CVF Conference on Computer
+Vision and Pattern Recognition (CVPR), pages 5505–5514. IEEE Computer Society,
+2018.
+
+[9] Kamyar Nazeri, Eric Ng, Tony Joseph, Faisal Qureshi, and Mehran Ebrahimi. Edge-
+connect: Structure guided image inpainting using edge prediction. In 2019 IEEE/CVF
+International Conference on Computer Vision Workshop (ICCVW), pages 3265–3274,
+2019.
+
+[10] Qianna Wang, Yi Chen, Nan Zhang, and Yanhui Gu. Medical image inpainting with
+edge and structure priors. Measurement: Journal of the International Measurement
+Confederation, 185, 2021.
+
+[11] Lan Lan, Lei You, Zeyang Zhang, Zhiwei Fan, Weiling Zhao, Nianyin Zeng, Yidong Chen,
+and Xiaobo Zhou. Generative adversarial networks and its applications in biomedical
+informatics, 2020.
+
+[12] Michela Antonelli, Annika Reinke, Spyridon Bakas, Keyvan Farahani, Annette Kopp-
+Schneider, Bennett A. Landman, Geert Litjens, Bjoern Menze, Olaf Ronneberger, and
+Ronald M. Summers et al. The medical segmentation decathlon. Nature Communications,
+13, 2022.
 
 ## 7. Contact
