@@ -50,7 +50,7 @@ Despite the promising results in this field ( which can be explored in more deta
 ## Methodology
 This chapter is organized into three primary procedural sections &mdash; Preprocessing Steps, Missing Data Generation and Missing Data Reconstruction &mdash; as illustrated in Figure 1. The entire methodology, from image processing tasks to Machine Learning (ML) algorithms, was implemented using *Python*.
 
-![Diagram of the experimental procedure developed.](./images/photo.jpg)
+![Diagram of the experimental procedure developed.](./imgs/experimental_setup.png)
 
    - ### Preprocessing Steps
 The dataset for this study was sourced from the Medical Segmentation Decathlon (MSD) and comprised 95 chest CT volumes from The Cancer Imaging Archive (TCIA) \cite{Antonelli2022,TCIA2024}. Of these, only 63 scans included 3D annotations identifying non-small cell lung tumours, leading to the remaining volumes' exclusion from further analysis.
