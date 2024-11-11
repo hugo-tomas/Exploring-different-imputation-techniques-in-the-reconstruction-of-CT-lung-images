@@ -1,13 +1,11 @@
-# Exploring Different Imputation Techniques in the Reconstruction of CT Lung Images
+# Theoretical Concepts Behind the Code
 
-This methodology forms the backbone of the codebase, covering everything from data preparation and missing-data creation to the setup of imputation models for lung CT scans. Each section of the code aligns with the steps described here, from data normalization to generating targeted missing data zones and configuring the inpainting models. With a 10-fold cross-validation setup built in, users can easily test and compare model performance across different levels of missing data.
-
-The codebase, makes it straightforward to follow along and apply the methods outlined, allowing users to dive into model training, preprocessing, and reconstruction techniques on this well-prepared dataset.
+This document serves as an auxiliary to the codebase, outlining the key steps involved in data preparation, missing data generation, and the setup of imputation models for lung CT scans. The code directly follows these steps, including data normalization, the creation of targeted missing regions, and the configuration of various inpainting models for image reconstruction.
 
 ---
 
 ## Methodology
-This chapter is organized into three primary procedural sections &mdash; Preprocessing Steps, Missing Data Generation and Missing Data Reconstruction &mdash; as illustrated in Figure 1. The entire methodology, from image processing tasks to Machine Learning (ML) algorithms, was implemented using *Python*.
+As previous said, this chapter is organized into three primary procedural sections &mdash; Preprocessing Steps, Missing Data Generation and Missing Data Reconstruction &mdash; as illustrated in Figure 1. The entire methodology, from image processing tasks to Machine Learning (ML) algorithms, was implemented using *Python*.
 
 <p align="center">
     <img src="/imgs/experimental_setup.png" alt="Figure 1" width="750"/>
