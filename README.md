@@ -39,7 +39,7 @@ In light of the aforementioned challenges and statistics, this study focuses spe
 
 ## Related Work
 
-Traditional methods for inferring missing image data primarily rely on mathematical and statistical models. However, they often struggle to capture high-level semantic details, focusing instead on local data rather than the broader image context [7]. To overcome these limitations, learning-based models such as Convolutional Neural Networks (CNNs) and Generative Adversarial Networks (GANs) have emerged as prominent alternatives, significantly improving image imputation by capturing high-level patterns imperceptible to the human eye \cite{Zhang2023}.
+Traditional methods for inferring missing image data primarily rely on mathematical and statistical models. However, they often struggle to capture high-level semantic details, focusing instead on local data rather than the broader image context [7]. To overcome these limitations, learning-based models such as Convolutional Neural Networks (CNNs) and Generative Adversarial Networks (GANs) have emerged as prominent alternatives, significantly improving image imputation by capturing high-level patterns imperceptible to the human eye [7].
 
 Recent advancements in image inpainting have led to the development of innovative models that enhance reconstruction processes. In the literature, Pathak et al. (2016) [8] introduced the *Context Encoder* (CE), recognized as one of the first models specialized in image imputation, which employs an encoder-decoder architecture with fully connected layers for reconstructing square missing masks. Building on this foundation, Iizuka et al. (2017) [9] developed the *Global and Local Consistency Image Completion* (GLCIC), which integrates dual discriminators to improve both local and global consistency in the generated images. Further refining inpainting techniques, Yu et al. (2018) [10] proposed the *Contextual Attention* (CA) model, which employs a two-stage approach to consider surrounding features, allowing for more effective filling of multiple holes of varying sizes. The *EdgeConnect* (EC) model introduced by Nazeri et al. (2019) [11] distinguishes itself by first predicting edge structures, utilizing this information to guide the inpainting process and enhance texture alignment. Similarly, Wang et al. (2021) [12] presented the *Edge and Structure Multi-Scale Image Inpainting* (ESMII) model, which incorporates both edge information and structural details extracted after a texture removal process, employing multi-scale feature extraction throughout the inpainting procedure.
 
@@ -48,14 +48,9 @@ In the medical field, image imputation techniques have predominantly been applie
 Despite the promising results in this field ( which can be explored in more detail in [HERE](./docs/LiteratureReview.pdf) ), particularly in clinical applications where these techniques have demonstrated substantial impact, further exploration and development are necessary for a comprehensive understanding of the actual methods' effects on specific anatomical structures and tissues.
 
 ## Methodology
-This chapter is organized into three primary procedural sections &mdash; Preprocessing Steps, Missing Data Generation and Missing Data Reconstruction &mdash; as illustrated in Figure 1. The entire methodology, from image processing tasks to Machine Learning (ML) algorithms, was implemented using \textit{Python}.
+This chapter is organized into three primary procedural sections &mdash; Preprocessing Steps, Missing Data Generation and Missing Data Reconstruction &mdash; as illustrated in Figure 1. The entire methodology, from image processing tasks to Machine Learning (ML) algorithms, was implemented using *Python*.
 
-\begin{figure}[!ht]
-    \centering
-    \includegraphics[width=0.66\textwidth]{images/experimental_setup.png}
-    \caption{Diagram of the experimental procedure developed.}
-    \label{fig:experimental_setup}
-\end{figure}
+![Diagram of the experimental procedure developed.](./images/photo.jpg)
 
    - ### Preprocessing Steps
 The dataset for this study was sourced from the Medical Segmentation Decathlon (MSD) and comprised 95 chest CT volumes from The Cancer Imaging Archive (TCIA) \cite{Antonelli2022,TCIA2024}. Of these, only 63 scans included 3D annotations identifying non-small cell lung tumours, leading to the remaining volumes' exclusion from further analysis.
