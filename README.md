@@ -20,7 +20,7 @@ This project is organized into three primary procedural steps &mdash; Preprocess
 ---
 
 ## Key Results
-This study’s results capture the performance of various inpainting techniques for reconstructing missing or corrupted regions in lung CT images. Through quantitative and qualitative analyses, the study assessed each model's effectiveness in reconstructing essential tissue characteristics and handling complex structural and textural challenges. The sections below provide a comparative perspective on each model’s effectiveness, as well as insights into their strengths and limitations across varied reconstruction scenarios.
+This study’s results capture the performance of the compared image imputation techniques for reconstructing missing regions in lung CT images. Through quantitative and qualitative analyses, the study assessed each model's effectiveness in reconstructing essential tissue characteristics and handling complex structural and textural challenges.
 
 - ### Qualitative Results
 Although these conclusions have not yet been medically validated, the qualitative analysis offers insights into the realism and coherence of the reconstructions, particularly concerning the characteristics of the missing data, as shown in Figure 8, 9 and 10.
@@ -43,12 +43,10 @@ Although these conclusions have not yet been medically validated, the qualitativ
     <em><strong>Figure 10:</strong> Qualitative results of inpainting models on images with total missing structures, with rows showing input images with 10%, 20%, 30% and 40% of missing data. The final column presents ground truth data; blue arrows mark expected reconstructions and green arrows indicate consistent results.</em>
 </p> 
 
-The ESMII model delivered some of the highest-quality reconstructions, with outputs nearly indistinguishable from valid regions, even at high missing data levels. While it excelled in texture replication, it struggled with finer details, particularly in capturing certain "roughness."
-
    - ### Quantitative Results
-     - #### Overall Analysis
-      According to Table 1 and 2, the ESMII model consistently outperformed other models across missing data levels in pixel-based evaluations (MAE and PSNR). For image consistency, ESMII again excelled, with FID indicating significant advantages over the other models. Additionally, the EC model excelled in HT but declined in LT, highlighting a performance shift with tissue complexity.
-
+    Tables 1 and 2 evaluate the models' performance based on pixel accuracy and image consistency across healthy tissues (HT), tumor lesions (LT), and combined tissues (ALL). Table 3 shows performance across Lung, External-Lung, and Tumor tissues, while Table 4 measures tumor overlap between the generated and original data. All tables account for the standard deviation from the 10-fold cross-validation procedure.
+     
+    - #### Overall Analysis
       <p>
           <em><strong>Table 1:</strong> Quantitative results obtained after testing all the inpainting models compared during this study, based on a pixel-based approach. This approach was designed to assess the algorithms’ performance in healthy tissues (HT), tissues with tumour lesions (LT), and their combination (ALL). Note that the up and down arrows next to the metrics indicate the optimal direction for the models’ test parameters evolution. The values in bold highlight the best values for each condition.</em>
       </p>
@@ -65,8 +63,6 @@ The ESMII model delivered some of the highest-quality reconstructions, with outp
 
 
      - #### Tissues-Based Analysis
-      Table 3 highlights that imputation models had divergent performances across different tissue types. Lung tissue showed the highest reconstruction accuracy, followed by extra-pulmonary and tumour tissues, reflecting varying noise levels. The ESMII model outperformed others in reconstructing lung and extra-lung tissues, while the EC model excelled in tumour reconstructions. EC’s strong performance in structural reconstruction suggests a preference for structural details over texture, particularly for tumour reconstruction.
-
       <p>
           <em><strong>Table 3:</strong> Qualitative results from testing the top-performing inpainting models across Lung, External-Lung, and Tumour tissues, with bold values marking the best performance and arrows indicating the optimal direction of metric evolution.</em>
       </p>
@@ -76,8 +72,6 @@ The ESMII model delivered some of the highest-quality reconstructions, with outp
 
       
      - #### Tumoural Omission Analysis
-      Table 4 shows that reconstructing tumour masses in missing regions was challenging, particularly as tumour omission increased. The EC model was most effective in detecting lesions under high omission scenarios, although variability in outcomes resulted in minimal statistical differences compared to the ESMII model.
-
       <p>
           <em><strong>Table 4:</strong> Qualitative results focusing on tumour reconstruction by measuring the tumour overlap between generated and original data. Bold values indicate the best performance and arrows show the optimal metric direction.</em>
       </p>
