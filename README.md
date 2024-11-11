@@ -45,7 +45,7 @@ Recent advancements in image inpainting have led to the development of innovativ
 
 In the medical field, image imputation techniques have predominantly been applied in Computed Tomography (CT) and Magnetic Resonance Imaging (MRI). These algorithms typically aim to rectify non-anatomic artefacts, such as streaking caused by metal, motion or issues related to the field of view (FOV) and patient positioning [13]. Recent trends indicate an increasing integration of these techniques into more complex algorithms, including segmentation models, where inpainting appears as an intermediate step within the processing pipeline [13].
 
-Despite the promising results in this field (which can be explored in more detail in [HERE](./path/to/yourfile.pdf)), particularly in clinical applications where these techniques have demonstrated substantial impact, further exploration and development are necessary for a comprehensive understanding of the actual methods' effects on specific anatomical structures and tissues.
+Despite the promising results in this field (which can be explored in more detail in [HERE](./docs/LiteratureReview.pdf)), particularly in clinical applications where these techniques have demonstrated substantial impact, further exploration and development are necessary for a comprehensive understanding of the actual methods' effects on specific anatomical structures and tissues.
 
 ## 3. Methodology
 This chapter is organized into three primary procedural sections -- Preprocessing Steps, Missing Data Generation and Missing Data Reconstruction -- as illustrated in Figure \ref{fig:experimental_setup}. The entire methodology, from image processing tasks to Machine Learning (ML) algorithms, was implemented using \textit{Python}.
