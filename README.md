@@ -51,9 +51,9 @@ Despite the promising results in this field ( which can be explored in more deta
 This chapter is organized into three primary procedural sections &mdash; Preprocessing Steps, Missing Data Generation and Missing Data Reconstruction &mdash; as illustrated in Figure 1. The entire methodology, from image processing tasks to Machine Learning (ML) algorithms, was implemented using *Python*.
 
 <p align="center">
-    <img src="./imgs/experimental_setup.png" alt="Diagram of the experimental procedure" width="750"/>
+    <img src="./imgs/experimental_setup.png" alt="Figure 1" width="1240"/>
     <br>
-    <em>Figure 1: Diagram of the experimental procedure developed.</em>
+    <em><strong>Figure 1:</strong> Diagram of the experimental procedure developed.</em>
 </p>
 
    - ### Preprocessing Steps
@@ -64,9 +64,9 @@ To ensure consistency across the dataset, variations in the field of view (FOV) 
 Pixel values, originally measured in *Hounsfield* Units (HU), were then normalized to a range of $[0, 1]$ following a windowing process from $[-600, 1000]$ HU, as illustrated in Figure 2. This normalization accommodated the density ranges of both thoracic and carcinogenic tissues, ultimately supporting more accurate algorithmic comparisons during specific evaluation stages.
 
 <p align="center">
-    <img src="./imgs/hounsdfield_graph.png" alt="Diagram of the experimental procedure" width="512"/>
+    <img src="./imgs/hounsdfield_graph.png" alt="Figure 2" width="1240"/>
     <br>
-    <em>Figure 2: Windowing process and respective conversion from *Hounsfield* to Pixel Intensity scale.</em>
+    <em><strong>Figure 2:</strong> Windowing process and respective conversion from *Hounsfield* to Pixel Intensity scale.</em>
 </p>
     
    - ### Missing Generation
@@ -75,55 +75,50 @@ Unlike traditional methods that estimate missing pixels across the entire image,
 To comprehensively assess the models, four levels of missing data &mdash; 10\%, 20\%, 30\%, and 40\% &mdash; were applied using a square pattern that densely removed information, allowing models' performance analysis under progressive data loss, as outlined in Figure 3. To maintain focus on the lung tissue, the centre of the missing region was assumed to fall within the lung mask. However, due to the variable shapes of lung slices &mdash; particularly in the narrower, elongated inferior lobes &mdash; it was not always feasible to fully confine high-percentage missing data areas within the lung boundaries. To address this, as represented in Figure 4, a missing mask was deemed valid if at least $60\%$ of its pixels were within the lung area and $100\%$ were within the region of interest (ROI). This condition prevented the models trained on higher missing-data percentages from being restricted to medial lung slices with larger pulmonary cavities, enhancing generalizability across different lung regions.
 
 <p align="center">
-    <img src="./imgs/hounsdfield_graph.png" alt="Diagram of the experimental procedure" width="512"/>
+    <img src="./imgs/missing_creation.png" alt="Figure 3" width="1240"/>
     <br>
-    <em>Figure 3: Windowing process and respective conversion from *Hounsfield* to Pixel Intensity scale.</em>
+    <em><strong>Figure 3:</strong> Minimalist schematic representative of the algorithm behind missing mask creation.</em>
 </p>
 
-<p align="center">
-    <img src="./imgs/hounsdfield_graph.png" alt="Diagram of the experimental procedure" width="512"/>
+<p>
+    <img src="./imgs/mask_validation.png" alt="Figure 4" width="1240"/>
     <br>
-    <em>Figure 4: Windowing process and respective conversion from *Hounsfield* to Pixel Intensity scale.</em>
+    <em><strong>Figure 4:</strong> Visual representation of the process for creating and validating missing zones, using the masks from lung region segmentation and images of ROIs, previously extracted.</em>
 </p>
 
 In summary, this targeted approach provided a deeper understanding of how imputation models perform with tissues of distinct characteristics, especially in cases where missing data could compromise medical assessment accuracy. By refining the precision of reconstructed regions, this method aimed to yield more reliable clinical insights, improve ML model specificity, and minimize potential errors or inconsistencies during reconstruction.
 
    - ### Missing Reconstruction
-This study compared several imputation models to evaluate their performance on different thoracic tissue types, each with distinct characteristics. The approach was based on the hypothesis that certain models may excel with specific tissue structures, even if their overall performance varied.
+This study compared several imputation models to evaluate their performance on different thoracic tissue types, each with distinct characteristics. The approach was based on the hypothesis that certain models may excel with specific tissue structures, even if their overall performance varied. Two adapted versions of the CE model [8], each focused on local and global discrimination, were highlighted alongside comparisons with other established models such as GLCIC [9], CA [10], EC [11] and ESMII [12].
 
-Two adapted versions of the CE model \cite{Pathak2016}, each focused on local and global discrimination, were highlighted alongside comparisons with other established models such as GLCIC \cite{Iizuka2017}, CA \cite{Yu2018}, EC \cite{Nazeri2019}, and ESMII \cite{Wang2021}. A key contribution of this work was the introduction of the \textit{Multi-Slices} (MS) approach, which enhanced volumetric reconstruction by incorporating images from other patients as inpainting priors, thus addressing limitations of models that relied solely on intra-slice information. By selecting the five most similar images for each input slice based on cosine similarity using a pre-trained ResNet-18 network, as illustrated in Figure \ref{fig:multi_slice}, the MS approach ensured that missing patterns were matched accurately, avoiding distortions from default pixel values. In summary, the innovative methodology derived from the ESMII architecture effectively integrated similar slices as supplementary channels, streamlined the decoder into a singular pathway and retained the original loss function, opening avenues for future research into optimizing slice selection, feature extraction and similarity assessment techniques.
+A 10-fold cross-validation protocol was applied for training and testing phases across all imputation models to ensure robust and consistent results. This approach was adopted to address an issue observed during traditional dataset division, where a random split into training and test sets, as commonly practised in the literature, inadvertently led to slices from the same patient scan appearing in both sets, as demonstrated in Figure 5. This overlap allowed the reconstruction models to benefit from adjacent training slices, potentially inflating performance metrics by relying on neighbouring data rather than the intended independent slices.
 
-\begin{figure}[!ht]
-    \centering
-    \includegraphics[width=.65\linewidth]{images/multi_slice.png}
-    \caption{Schematic representation of the algorithm implemented to select the five most similar images.}
-    \label{fig:multi_slice}
-\end{figure}
+<p>
+    <img src="./imgs/overfitting.png" alt="Figure 5" width="1240"/>
+    <br>
+    <em><strong>Figure 5:</strong> A potential overfitting scenario caused by the commonly used split approach between training and test sets. In this situation, slices 100 and 101 from the same CT volume are included in the test and training phases, respectively, leading the model to rely on memorization rather than learning during the training procedure. This particular overfitting effect is highlighted by a mask that covers 90% of the total image area, demonstrating an effective failure in the model’s generalization capacity.</em>
+</p>
 
-A 10-fold cross-validation protocol was applied for training and testing phases across all imputation models to ensure robust and consistent results. This approach was adopted to address an issue observed during traditional dataset division, where a random split into training and test sets, as commonly practised in the literature, inadvertently led to slices from the same patient scan appearing in both sets. This overlap allowed the reconstruction models to benefit from adjacent training slices, potentially inflating performance metrics by relying on neighbouring data rather than the intended independent slices.
-
-To provide fair comparison conditions, all models were trained and evaluated under standardized settings, including uniform data preprocessing, consistent training parameters (100 epochs with a batch size of 8 slices) and controlled testing environments. The experiments were conducted on a virtual machine equipped with an Intel Xeon Silver 4314 CPU at 2.40 GHz and an NVIDIA RTX A6000 GPU with 47.95 GiB of memory, ensuring consistent computational conditions across all techniques.
+To provide fair comparison conditions, all models were trained and evaluated under standardized settings, including uniform data preprocessing, consistent training parameters **(100 epochs with a batch size of 8 slices)** and controlled testing environments. The experiments were conducted on a virtual machine equipped with an **Intel Xeon Silver 4314 CPU** at **2.40 GHz** and an **NVIDIA RTX A6000 GPU** with **47.95 GiB** of memory, ensuring consistent computational conditions across all techniques.
 
 ## 4. Results
-During the evaluation phase, human perceptual coherence was combined with objective metrics, including pixel-based measures -- Mean Absolute Error (MAE) and Peak Signal-to-Noise Ratio (PSNR) -- and feature-based metrics -- Structural Similarity Index Measure (SSIM) and Fréchet Inception Distance (FID).
+During the evaluation phase, human perceptual coherence was combined with objective metrics, including pixel-based measures -- Mean Absolute Error (MAE) and Peak Signal-to-Noise Ratio (PSNR) &mdash; and feature-based metrics &mdash; Structural Similarity Index Measure (SSIM) and Fréchet Inception Distance (FID).
 
-Alongside the overall analysis, a tissue-specific assessment was conducted to differentiate performance across three distinct tissue types: lung, surrounding external and carcinogenic tissues. Metrics were calculated separately for each category to highlight models' effectiveness in reconstructing structures with differing intrinsic properties, as illustrated in Figure \ref{fig:tissue_difference}.
+Alongside the overall analysis, a tissue-specific assessment was conducted to differentiate performance across three distinct tissue types: lung, surrounding external and carcinogenic tissues. Metrics were calculated separately for each category to highlight models' effectiveness in reconstructing structures with differing intrinsic properties, as illustrated in Figure 6.
 
-\begin{figure}[!ht]
-       \centering
-       \includegraphics[width=0.6\textwidth]{images/tissue_difference.png}
-       \caption{Procedure applied to evaluate the pixel-by-pixel performance of the frameworks, developed based on the anatomical differences between tissues.}
-       \label{fig:tissue_difference}
-\end{figure}
+<p align="center">
+    <img src="./imgs/overfitting.png" alt="Figure 6" width="1240"/>
+    <br>
+    <em><strong>Figure 6:</strong> Procedure applied to evaluate the pixel-by-pixel performance of the frameworks, developed based on the anatomical differences between tissues.</em>
+</p>
 
-A tumour reconstruction analysis, shown in Figure \ref{fig:tumour_reconstrution_study}, further assessed each model’s ability to reconstruct solid masses by identifying hyperdense regions. This analysis used the Dice coefficient (DICE), focusing on structural alignment rather than solely on pixel intensity. Lesion areas were categorized into four ranges based on the proportion of tumour tissue within the missing regions: $[0\%; 25\%]$, $[25\%; 50\%]$, $[50\%; 75\%]$ and $[75\%; 100\%]$; providing insights into reconstruction accuracy relative to the extent of missing carcinogenic tissue.
+A tumour reconstruction analysis, shown in Figure 7, further assessed each model’s ability to reconstruct solid masses by identifying hyperdense regions. This analysis used the Dice coefficient (DICE), focusing on structural alignment rather than solely on pixel intensity. Lesion areas were categorized into four ranges based on the proportion of tumour tissue within the missing regions: $[0\%; 25\%]$, $[25\%; 50\%]$, $[50\%; 75\%]$ and $[75\%; 100\%]$; providing insights into reconstruction accuracy relative to the extent of missing carcinogenic tissue.
 
-\begin{figure}[!ht]
-       \centering
-       \includegraphics[width=0.85\textwidth]{images/tumour_reconstrution_study.png}
-       \caption{Approach applied to analyze the reconstructive capacity of tumours.}
-       \label{fig:tumour_reconstrution_study}
-\end{figure}
+<p align="center">
+    <img src="./imgs/overfitting.png" alt="Figure 7" width="1240"/>
+    <br>
+    <em><strong>Figure 7:</strong> Approach applied to analyze the reconstructive capacity of tumours.</em>
+</p>
 
 To validate these findings, statistical tests, including the Independent T-Test and Mann-Whitney U Test, were employed to evaluate the significance of performance differences between models. A significance level of $0.05$ was maintained across all analyses.
 
