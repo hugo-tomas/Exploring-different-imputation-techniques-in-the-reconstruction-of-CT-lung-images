@@ -1,6 +1,6 @@
 # Exploring Different Imputation Techniques in the Reconstruction of CT Lung Images
 
-Welcome to the official repository of our project, **Exploring Different Imputation Techniques in the Reconstruction of CT Lung Images**. This repository provides a comprehensive guide and additional resources to extend our research beyond the conference paper's scope, including detailed explanations, images and notebooks.
+Welcome to the official repository of our project, **Exploring Different Imputation Techniques in the Reconstruction of CT Lung Images**. This repository provides a comprehensive guide and additional resources to extend our research, including detailed explanations, images and notebooks.
 
 ---
 
