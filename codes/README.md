@@ -2,7 +2,7 @@
 
 This methodology forms the backbone of the codebase, covering everything from data preparation and missing-data creation to the setup of imputation models for lung CT scans. Each section of the code aligns with the steps described here, from data normalization to generating targeted missing data zones and configuring the inpainting models. With a 10-fold cross-validation setup built in, users can easily test and compare model performance across different levels of missing data.
 
-The codebase, written in Python, makes it straightforward to follow along and apply the methods outlined, allowing users to dive into model training, preprocessing, and reconstruction techniques on this well-prepared dataset.
+The codebase, makes it straightforward to follow along and apply the methods outlined, allowing users to dive into model training, preprocessing, and reconstruction techniques on this well-prepared dataset.
 
 ---
 
