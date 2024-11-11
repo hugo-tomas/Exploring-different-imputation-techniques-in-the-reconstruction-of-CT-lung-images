@@ -30,55 +30,54 @@ Although these conclusions have not yet been medically validated, the qualitativ
     <br>
     <em><strong>Figure 8:</strong> Qualitative results of inpainting models on pulmonary tissue structures, with rows showing input images with 10%, 20%, 30% and 40% of missing data. The final column presents ground truth data; blue arrows mark expected reconstructions and green arrows indicate consistent results.</em>
 </p>
-
+<br />
 <p>
     <img src="./imgs/results_texture.png" alt="Figure 9" width="1240"/>
     <br>
     <em><strong>Figure 9:</strong> Qualitative results of inpainting models on pulmonary parenchyma missings, with rows showing input images with 10%, 20%, 30% and 40% of missing data. The final column presents ground truth data; blue arrows mark expected reconstructions and green arrows indicate consistent results.</em>
 </p>
-
+<br />
 <p>
     <img src="./imgs/results_omission.png" alt="Figure 10" width="1240"/>
     <br>
     <em><strong>Figure 10:</strong> Qualitative results of inpainting models on images with total missing structures, with rows showing input images with 10%, 20%, 30% and 40% of missing data. The final column presents ground truth data; blue arrows mark expected reconstructions and green arrows indicate consistent results.</em>
 </p> 
 
-   - ### Quantitative Results
-    Tables 1 and 2 evaluate the models' performance based on pixel accuracy and image consistency across healthy tissues (HT), tumor lesions (LT), and combined tissues (ALL). Table 3 shows performance across Lung, External-Lung, and Tumor tissues, while Table 4 measures tumor overlap between the generated and original data. All tables account for the standard deviation from the 10-fold cross-validation procedure.
+- ### Quantitative Results
+Tables 1 and 2 evaluate the models' performance based on pixel accuracy and image consistency across healthy tissues (HT), tumor lesions (LT), and combined tissues (ALL). Table 3 shows performance across Lung, External-Lung, and Tumor tissues, while Table 4 measures tumor overlap between the generated and original data. All tables account for the standard deviation from the 10-fold cross-validation procedure.
      
-    - #### Overall Analysis
-      <p>
-          <em><strong>Table 1:</strong> Quantitative results obtained after testing all the inpainting models compared during this study, based on a pixel-based approach. This approach was designed to assess the algorithms’ performance in healthy tissues (HT), tissues with tumour lesions (LT), and their combination (ALL). Note that the up and down arrows next to the metrics indicate the optimal direction for the models’ test parameters evolution. The values in bold highlight the best values for each condition.</em>
-      </p>
-      <p align="center">
-          <img src="./tabs/overall_pixel.png" alt="Table 1" width="750"/>
-      </p>
-      
-      <p>
-          <em><strong>Table 2:</strong> Quantitative results obtained after testing all the inpainting models compared during this study, based on an image consistency evaluation. This approach was designed to assess the algorithms’ performance in healthy tissues (HT), tissues with tumour lesions (LT), and their combination (ALL). Note that the up and down arrows next to the metrics indicate the optimal direction for the models’ test parameters evolution. The values in bold highlight the best values for each condition.</em>
-      </p>
-      <p align="center">
-          <img src="./tabs/overall_highlevel.png" alt="Table 2" width="750"/>
-      </p>
+- #### Overall Analysis
+<p>
+    <em><strong>Table 1:</strong> Quantitative results obtained after testing all the inpainting models compared during this study, based on a pixel-based approach. This approach was designed to assess the algorithms’ performance in healthy tissues (HT), tissues with tumour lesions (LT), and their combination (ALL). Note that the up and down arrows next to the metrics indicate the optimal direction for the models’ test parameters evolution. The values in bold highlight the best values for each condition.</em>
+</p>
+<p align="center">
+    <img src="./tabs/overall_pixel.png" alt="Table 1" width="750"/>
+</p>
+<br />
+<p>
+    <em><strong>Table 2:</strong> Quantitative results obtained after testing all the inpainting models compared during this study, based on an image consistency evaluation. This approach was designed to assess the algorithms’ performance in healthy tissues (HT), tissues with tumour lesions (LT), and their combination (ALL). Note that the up and down arrows next to the metrics indicate the optimal direction for the models’ test parameters evolution. The values in bold highlight the best values for each condition.</em>
+</p>
+<p align="center">
+    <img src="./tabs/overall_highlevel.png" alt="Table 2" width="750"/>
+</p>
+    
+- #### Tissues-Based Analysis
+<p>
+  <em><strong>Table 3:</strong> Qualitative results from testing the top-performing inpainting models across Lung, External-Lung, and Tumour tissues, with bold values marking the best performance and arrows indicating the optimal direction of metric evolution.</em>
+</p>
+<p align="center">
+  <img src="./tabs/tissuebased.png" alt="Table 3" width="750"/>
+</p>
 
 
-     - #### Tissues-Based Analysis
-      <p>
-          <em><strong>Table 3:</strong> Qualitative results from testing the top-performing inpainting models across Lung, External-Lung, and Tumour tissues, with bold values marking the best performance and arrows indicating the optimal direction of metric evolution.</em>
-      </p>
-      <p align="center">
-          <img src="./tabs/tissuebased.png" alt="Table 3" width="750"/>
-      </p>
+- #### Tumoural Omission Analysis
+<p>
+  <em><strong>Table 4:</strong> Qualitative results focusing on tumour reconstruction by measuring the tumour overlap between generated and original data. Bold values indicate the best performance and arrows show the optimal metric direction.</em>
+</p>
+<p align="center">
+  <img src="./tabs/tumourbased.png" alt="Table 4" width="750"/>
+</p>
 
-      
-     - #### Tumoural Omission Analysis
-      <p>
-          <em><strong>Table 4:</strong> Qualitative results focusing on tumour reconstruction by measuring the tumour overlap between generated and original data. Bold values indicate the best performance and arrows show the optimal metric direction.</em>
-      </p>
-      <p align="center">
-          <img src="./tabs/tumourbased.png" alt="Table 4" width="750"/>
-      </p>
-      
 ---
 
 ## Contact
