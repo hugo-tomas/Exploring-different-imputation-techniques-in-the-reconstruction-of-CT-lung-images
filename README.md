@@ -5,7 +5,7 @@ Welcome to the official repository of our project, **Exploring Different Imputat
 ---
 
 ## Abstract
-Despite significant technological advancements, Computed Tomography (CT) scans remain vulnerable to artefacts and errors, leading to the loss of critical medical information and clinical efficacy. This study investigates the reconstruction of missing or corrupted regions in lung CT images by comparing five established image imputation models &mdash; *Context Encoder* (CE), *{Global and Local Consistency Image Completion* (GLCIC), *Contextual Attention* (CA), *Edge-Connected* (EC), and *Edge and Structure Information for Medical Image Inpainting* (ESMII). These learning-based algorithms are evaluated using a 10-fold cross-validation approach on a dataset comprising 5,350 transverse slices from 31 chest CT volumes of patients with non-small cell lung cancer. The assessment encompasses four levels of missing data &mdash; 10%, 20%, 30% and 40% &mdash; which correspond to the proportion of missing pixels relative to the total number of lung tissue pixels in each image. The ESMII algorithm demonstrates superior overall performance across all percentages of missing data, consistently achieving accurate structural and textural reconstructions. However, in the context of tissue typology analysis and tumour mass reconstruction, the EC model exhibits the highest imputation performance across nearly all scenarios. However, from a broader perspective, the effectiveness of all models in reconstructing these noisy patterns remains limited. Given the novelty and potential of these techniques in medical applications, future research should focus on refining existing models, exploring new patterns of missing data and incorporating expert validation to enhance the clinical applicability of these methodologies.
+Despite significant technological advancements, Computed Tomography (CT) scans remain vulnerable to artefacts and errors, leading to the loss of critical medical information and clinical efficacy. This study investigates the reconstruction of missing or corrupted regions in lung CT images by comparing five established image imputation models &mdash; *Context Encoder* (CE), *{Global and Local Consistency Image Completion* (GLCIC), *Contextual Attention* (CA), *Edge-Connected* (EC) and *Edge and Structure Information for Medical Image Inpainting* (ESMII). These learning-based algorithms are evaluated using a 10-fold cross-validation approach on a dataset comprising 5,350 transverse slices from 31 chest CT volumes of patients with non-small cell lung cancer. The assessment encompasses four levels of missing data &mdash; 10%, 20%, 30% and 40% &mdash; which correspond to the proportion of missing pixels relative to the total number of lung tissue pixels in each image. The ESMII algorithm demonstrates superior overall performance across all percentages of missing data, consistently achieving accurate structural and textural reconstructions. However, in the context of tissue typology analysis and tumour mass reconstruction, the EC model exhibits the highest imputation performance across nearly all scenarios. However, from a broader perspective, the effectiveness of all models in reconstructing these noisy patterns remains limited. Given the novelty and potential of these techniques in medical applications, future research should focus on refining existing models, exploring new patterns of missing data and incorporating expert validation to enhance the clinical applicability of these methodologies.
 
 ## Table of Contents
 1. [Introduction](#introduction)
@@ -72,7 +72,7 @@ Pixel values, originally measured in *Hounsfield* Units (HU), were then normaliz
    - ### Missing Generation
 Unlike traditional methods that estimate missing pixels across the entire image, this approach focused exclusively on the lung area, weighting the missing data relative to the amount of omitted pulmonary tissue. For example, consider a slice with a resolution of $256 \times 256$ pixels and a missing data level of $10\%$. Conventional methods would calculate missing pixels as $256 \times 256 \times 0.1 \approx 6,554$ pixels. In contrast, assuming the lung region comprises $50\%$ of the image area, or $256 \times 256 \times 0.5 \approx 32,768$ pixels, this method calculates missing pixels as $(256 \times 256 \times 0.5) \times 0.1 \approx 3,277$ pixels. This lung-focused approach resulted in variable missing region sizes, even for a fixed percentage of missing data, ensuring that images with smaller lung areas had fewer omitted pixels than those with larger lung regions.
 
-To comprehensively assess the models, four levels of missing data &mdash; 10\%, 20\%, 30\%, and 40\% &mdash; were applied using a square pattern that densely removed information, allowing models' performance analysis under progressive data loss, as outlined in Figure 3. To maintain focus on the lung tissue, the centre of the missing region was assumed to fall within the lung mask. However, due to the variable shapes of lung slices &mdash; particularly in the narrower, elongated inferior lobes &mdash; it was not always feasible to fully confine high-percentage missing data areas within the lung boundaries. To address this, as represented in Figure 4, a missing mask was deemed valid if at least $60\%$ of its pixels were within the lung area and $100\%$ were within the region of interest (ROI). This condition prevented the models trained on higher missing-data percentages from being restricted to medial lung slices with larger pulmonary cavities, enhancing generalizability across different lung regions.
+To comprehensively assess the models, four levels of missing data &mdash; **10%, 20%, 30% and 40%** &mdash; were applied using a square pattern that densely removed information, allowing models' performance analysis under progressive data loss, as outlined in Figure 3. To maintain focus on the lung tissue, the centre of the missing region was assumed to fall within the lung mask. However, due to the variable shapes of lung slices &mdash; particularly in the narrower, elongated inferior lobes &mdash; it was not always feasible to fully confine high-percentage missing data areas within the lung boundaries. To address this, as represented in Figure 4, a missing mask was deemed valid if at least $60\%$ of its pixels were within the lung area and $100\%$ were within the region of interest (ROI). This condition prevented the models trained on higher missing-data percentages from being restricted to medial lung slices with larger pulmonary cavities, enhancing generalizability across different lung regions.
 
 <p align="center">
     <img src="./imgs/missing_creation.png" alt="Figure 3" width="1240"/>
@@ -86,7 +86,7 @@ To comprehensively assess the models, four levels of missing data &mdash; 10\%, 
     <em><strong>Figure 4:</strong> Visual representation of the process for creating and validating missing zones, using the masks from lung region segmentation and images of ROIs, previously extracted.</em>
 </p>
 
-In summary, this targeted approach provided a deeper understanding of how imputation models perform with tissues of distinct characteristics, especially in cases where missing data could compromise medical assessment accuracy. By refining the precision of reconstructed regions, this method aimed to yield more reliable clinical insights, improve ML model specificity, and minimize potential errors or inconsistencies during reconstruction.
+In summary, this targeted approach provided a deeper understanding of how imputation models perform with tissues of distinct characteristics, especially in cases where missing data could compromise medical assessment accuracy. By refining the precision of reconstructed regions, this method aimed to yield more reliable clinical insights, improve ML model specificity and minimize potential errors or inconsistencies during reconstruction.
 
    - ### Missing Reconstruction
 This study compared several imputation models to evaluate their performance on different thoracic tissue types, each with distinct characteristics. The approach was based on the hypothesis that certain models may excel with specific tissue structures, even if their overall performance varied. Two adapted versions of the CE model [8], each focused on local and global discrimination, were highlighted alongside comparisons with other established models such as GLCIC [9], CA [10], EC [11] and ESMII [12].
@@ -106,13 +106,13 @@ During the evaluation phase, human perceptual coherence was combined with object
 
 Alongside the overall analysis, a tissue-specific assessment was conducted to differentiate performance across three distinct tissue types: lung, surrounding external and carcinogenic tissues. Metrics were calculated separately for each category to highlight models' effectiveness in reconstructing structures with differing intrinsic properties, as illustrated in Figure 6.
 
-<p align="center">
+<p>
     <img src="./imgs/tissue_difference.png" alt="Figure 6" width="1240"/>
     <br>
     <em><strong>Figure 6:</strong> Procedure applied to evaluate the pixel-by-pixel performance of the frameworks, developed based on the anatomical differences between tissues.</em>
 </p>
 
-A tumour reconstruction analysis, shown in Figure 7, further assessed each model’s ability to reconstruct solid masses by identifying hyperdense regions. This analysis used the Dice coefficient (DICE), focusing on structural alignment rather than solely on pixel intensity. Lesion areas were categorized into four ranges based on the proportion of tumour tissue within the missing regions: $[0\%; 25\%]$, $[25\%; 50\%]$, $[50\%; 75\%]$ and $[75\%; 100\%]$; providing insights into reconstruction accuracy relative to the extent of missing carcinogenic tissue.
+A tumour reconstruction analysis, shown in Figure 7, further assessed each model’s ability to reconstruct solid masses by identifying hyperdense regions. This analysis used the Dice coefficient (DICE) and Intersection over Union (IoU), focusing on structural alignment rather than solely on pixel intensity. Lesion areas were categorized into four ranges based on the proportion of tumour tissue within the missing regions: **[0%; 25%], [25%; 50%], [50%; 75%] and [75%; 100%]**; providing insights into reconstruction accuracy relative to the extent of missing carcinogenic tissue.
 
 <p align="center">
     <img src="./imgs/tumour_reconstrution_study.png" alt="Figure 7" width="1240"/>
@@ -120,31 +120,28 @@ A tumour reconstruction analysis, shown in Figure 7, further assessed each model
     <em><strong>Figure 7:</strong> Approach applied to analyze the reconstructive capacity of tumours.</em>
 </p>
 
-To validate these findings, statistical tests, including the Independent T-Test and Mann-Whitney U Test, were employed to evaluate the significance of performance differences between models. A significance level of $0.05$ was maintained across all analyses.
+To validate these findings, statistical tests, including the Independent T-Test and Mann-Whitney U Test, were employed to evaluate the significance of performance differences between models. A significance level of 0.05 was maintained across all analyses.
 
    - ### Qualitative Results
-Although these conclusions have not yet been medically validated, the qualitative analysis offers insights into the realism and coherence of the reconstructions, particularly concerning the characteristics of the missing data, as shown in Figure \ref{fig:results_structure},\ref{fig:results_texture} and \ref{fig:results_omission}.
+Although these conclusions have not yet been medically validated, the qualitative analysis offers insights into the realism and coherence of the reconstructions, particularly concerning the characteristics of the missing data, as shown in Figure 8, 9 and 10.
 
-\begin{figure}[!ht]
-    \centering
-    \includegraphics[width=0.85\linewidth]{images/results_structure.png}
-    \caption{Qualitative results of inpainting models on pulmonary tissue structures, with rows showing input images with 10\%, 20\%, 30\% and 40\% of missing data. The final column presents ground truth data; blue arrows mark expected reconstructions, and green arrows indicate consistent results.}
-    \label{fig:results_structure}
-\end{figure}
+<p>
+    <img src="./imgs/results_structure.png" alt="Figure 8" width="1240"/>
+    <br>
+    <em><strong>Figure 8:</strong> Qualitative results of inpainting models on pulmonary tissue structures, with rows showing input images with 10%, 20%, 30% and 40% of missing data. The final column presents ground truth data; blue arrows mark expected reconstructions and green arrows indicate consistent results.</em>
+</p>
 
-\begin{figure}[!ht]
-    \centering
-    \includegraphics[width=0.85\linewidth]{images/results_texture.png}
-    \caption{Qualitative results of inpainting models on pulmonary parenchyma missings, with rows showing input images with 10\%, 20\%, 30\% and 40\% of missing data. The final column presents ground truth data; blue arrows mark expected reconstructions, and green arrows indicate consistent results.}
-    \label{fig:results_texture}
-\end{figure}
+<p>
+    <img src="./imgs/results_texture.png" alt="Figure 9" width="1240"/>
+    <br>
+    <em><strong>Figure 9:</strong> Qualitative results of inpainting models on pulmonary parenchyma missings, with rows showing input images with 10%, 20%, 30% and 40% of missing data. The final column presents ground truth data; blue arrows mark expected reconstructions and green arrows indicate consistent results.</em>
+</p>
 
-\begin{figure}[!htbp]
-    \centering
-    \includegraphics[width=0.85\linewidth]{images/results_omission.png}
-    \caption{Qualitative results of inpainting models on images with total missing structures, with rows showing input images with 10\%, 20\%, 30\% and 40\% of missing data. The final column presents ground truth data; blue arrows mark expected reconstructions, and green arrows indicate consistent results.}
-    \label{fig:results_omission}
-\end{figure} 
+<p>
+    <img src="./imgs/results_omission.png" alt="Figure 10" width="1240"/>
+    <br>
+    <em><strong>Figure 10:</strong> Qualitative results of inpainting models on images with total missing structures, with rows showing input images with 10%, 20%, 30% and 40% of missing data. The final column presents ground truth data; blue arrows mark expected reconstructions and green arrows indicate consistent results.</em>
+</p> 
 
 The CE models produced the least effective reconstructions, likely due to their simpler architecture. The global discrimination variant resulted in diffuse images, while the local version exhibited grainy textures. Both faced challenges with extra-pulmonary structures, resulting in pixelated images and reduced coherence. In contrast, the GLCIC model offered more continuous delineations, although it still struggled with hyperdense tissues.
 
@@ -156,31 +153,41 @@ The ESMII model delivered some of the highest-quality reconstructions, with outp
      - #### Overall Analysis
       In summary, pixel-based metrics like MAE and PSNR have limitations in capturing true textural relationships, as they may overlook texture recreation accuracy. Conversely, high-level metrics such as SSIM and FID better capture textural consistency but may still generate coherent images even when critical features, like tumours, are poorly reconstructed or missing.
       
-      According to Table \ref{tab:results_overall}, the ESMII model consistently outperformed other models across missing data levels in pixel-based evaluations (MAE and PSNR). CE-based models performed well at lower omission levels but declined markedly with increased missing areas. The EC model enhanced performance at higher omission rates, suggesting suitability for certain applications. In evaluations across healthy (HT) and lesion tissues (LT), ESMII generally maintained superior metrics overall.
+      According to Table 1 and 2, the ESMII model consistently outperformed other models across missing data levels in pixel-based evaluations (MAE and PSNR). CE-based models performed well at lower omission levels but declined markedly with increased missing areas. The EC model enhanced performance at higher omission rates, suggesting suitability for certain applications. In evaluations across healthy (HT) and lesion tissues (LT), ESMII generally maintained superior metrics overall.
+
+      <p>
+          <img src="./imgs/results_omission.png" alt="Figure 10" width="1240"/>
+          <br>
+          <em><strong>Table 1:</strong> Qualitative results of inpainting models on images with total missing structures, with rows showing input images with 10%, 20%, 30% and 40% of missing data. The final column presents ground truth data; blue arrows mark expected reconstructions and green arrows indicate consistent results.</em>
+      </p> 
+
+      <p>
+          <img src="./tabs/results_omission.png" alt="Figure 10" width="1240"/>
+          <br>
+          <em><strong>Table 2:</strong> Qualitative results of inpainting models on images with total missing structures, with rows showing input images with 10%, 20%, 30% and 40% of missing data. The final column presents ground truth data; blue arrows mark expected reconstructions and green arrows indicate consistent results.</em>
+      </p> 
       
       For image consistency, ESMII again excelled, with FID indicating significant advantages over the MS model. CA model, despite lower pixel-based scores, achieved higher FID values than CE-based models, highlighting that high pixel accuracy alone does not equate to effective tissue reconstruction. SSIM remained high across both HT and LT, suggesting overall coherence but poor lesion reconstruction. FID further emphasized performance drops in CE-based models in the presence of lesions. Additionally, the EC model excelled in HT but declined in LT, highlighting a performance shift with tissue complexity.
 
      - #### Tissues-Based Analysis
-      Table \ref{tab:tissues_results} highlights that imputation models had 
+      Table 3 highlights that imputation models had 
       divergent performances across different tissue types. Lung tissue showed the highest reconstruction accuracy, followed by extra-pulmonary and tumour tissues, reflecting varying noise levels. Lung tissue reconstructions had higher standard deviations due to their complex structures, while extra-pulmonary tissues showed less variability.
       
       The ESMII model outperformed others in reconstructing lung and extra-lung tissues, while the EC model excelled in tumour reconstructions. Statistical tests confirmed EC's advantage at lower missing rates, with the difference less significant at higher omission levels. EC’s strong performance in structural reconstruction suggests a preference for structural details over texture, particularly for tumour reconstruction.
       
      - #### Tumoural Omission Analysis
-      Table \ref{tab:tumour_results} shows that reconstructing tumour masses in missing regions was challenging, particularly as tumour omission increased. With 75\% to 100\% of the tumour missing, reconstruction accuracy dropped due to limited external information, emphasizing the reliance on contextual cues.
+      Table 4 shows that reconstructing tumour masses in missing regions was challenging, particularly as tumour omission increased. With 75% to 100% of the tumour missing, reconstruction accuracy dropped due to limited external information, emphasizing the reliance on contextual cues.
       
       The EC model was most effective in detecting lesions under high omission scenarios, although variability in outcomes resulted in minimal statistical differences compared to the ESMII model. The MS model performed well at lower tumour omission levels but declined sharply as the omission increased, indicating its reliance on partial tumour data.
       
-      Models did not solely depend on visible tumour data, because the absence of surrounding carcinogenic context impacted lesion reconstruction at higher omission rates. Notably, the CA model showed unexpectedly low DICE scores with 0\% to 25\% of tumour omission, suggesting that minor missing tumour areas may be deprioritized. In contrast, models like EC and ESMII, which use priors from other images, maintained more consistent performance across varying tumour omissions.
+      Models did not solely depend on visible tumour data, because the absence of surrounding carcinogenic context impacted lesion reconstruction at higher omission rates. Notably, the CA model showed unexpectedly low DICE and IoU scores with 0% to 25% of tumour omission, suggesting that minor missing tumour areas may be deprioritized. In contrast, models like EC and ESMII, which use priors from other images, maintained more consistent performance across varying tumour omissions.
       
 ## 5. Conclusion and Future Work
-In conclusion, this study examined various learning-based imputation models for reconstructing missing regions in lung CT images. Among the five established models -- \textit{Context Encoder} (CE), \textit{Global and Local Consistency Image Completion} (GLCIC), \textit{Contextual Attention} (CA), \textit{Edge-Connected} (EC), and \textit{Edge and Structure Information for Medical Image Inpainting} (ESMII) -- along with the novel approach -- \textit{Multi-Slice} (MS) -- ESMII demonstrated superior overall performance in both structural and textural reconstructions.
+In conclusion, this study examined various learning-based imputation models for reconstructing missing regions in lung CT images. Among the five established models -- *Context Encoder* (CE), *Global and Local Consistency Image Completion* (GLCIC), *Contextual Attention* (CA), *Edge-Connected* (EC) and *Edge and Structure Information for Medical Image Inpainting* (ESMII) -- ESMII demonstrated superior overall performance in both structural and textural reconstructions.
 
 Both qualitative and quantitative assessments indicated that ESMII surpassed other models in reconstructing structural and textural data, sustaining consistent performance across varying levels of missing information. While ESMII generally exhibited statistically significant improvements, some comparisons with EC and MS revealed minimal or non-significant differences.
 
-The proposed MS approach underscored the influence of external images on reconstruction accuracy, particularly in scenarios where specific tissues or structures were absent. This approach may, however, select similar samples that lack precise patterns within the missing areas. Thus, future iterations should consider developing mechanisms that enable the network to dynamically assess the relevance of external priors and modulate their impact, achieving an optimal balance between external features and self-sample information.
-
-Notably, the EC model demonstrated high efficacy in reconstructing tumour masses, as evidenced by DICE across different levels of lesion omission, although variability in cancerous pattern reconstruction remains a challenge. Additionally, this analysis highlighted the significant role of surrounding tissues in enhancing lesion reconstruction, underscoring the distinct capacities of each model.
+Notably, the EC model demonstrated high efficacy in reconstructing tumour masses, as evidenced by DICE and IoU scores across different levels of lesion omission, although variability in cancerous pattern reconstruction remains a challenge. Additionally, this analysis highlighted the significant role of surrounding tissues in enhancing lesion reconstruction, underscoring the distinct capacities of each model.
 
 Nevertheless, tumour reconstruction remained challenging, underscoring the need for continued research to improve model capabilities in handling complex tissue structures and missing data patterns. Future advancements could benefit from integrating clinical expertise, exploring hybrid approaches and adapting to clinically relevant missing-data scenarios.
 
